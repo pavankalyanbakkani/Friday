@@ -21,7 +21,7 @@ pipeline {
                 echo 'Hyuderabad'
                 echo 'Suncity'
                 echo 'Hyuderabad'
-                echo 'Sunciiimmmmmmmiiiiiiiiiiiiiiiiiiity'
+                echo 'Sunciiimiiiiiiiiiity'
               
             }
         }
