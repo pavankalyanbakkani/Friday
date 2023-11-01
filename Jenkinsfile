@@ -34,8 +34,9 @@ pipeline {
                     echo "ABD"
                 }
             }
-        }
         failure{
             echo 'build has failed'
     }
+        }
+        
 }
