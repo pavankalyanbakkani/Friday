@@ -27,29 +27,33 @@ pipeline {
         }
     }
 
-    post {
+   post {
         always {
             script {
                 def jobName = env.JOB_NAME
                 def buildNumber = env.BUILD_NUMBER
                 def buildStatus = currentBuild.currentResult
 
-                // Construct the payload
+                // Construct the payload as a map
                 def payload = [
                     jobName: jobName,
                     buildNumber: buildNumber,
                     status: buildStatus
                 ]
 
+                // Convert map to JSON string
+                def payloadJson = writeJSON returnText: true, json: payload
+
                 // Send notification
                 httpRequest(
                     httpMode: 'POST',
                     url: 'http://<your_server_ip>:3000/webhook',
                     contentType: 'APPLICATION_JSON',
-                    requestBody: new groovy.json.JsonBuilder(payload).toString()
+                    requestBody: payloadJson
                 )
             }
         }
+    }
         
 }
 }
