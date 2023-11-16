@@ -28,15 +28,28 @@ pipeline {
     }
 
     post {
-        success {
+        always {
             script {
-               
-                    echo "ABD"
-                }
+                def jobName = env.JOB_NAME
+                def buildNumber = env.BUILD_NUMBER
+                def buildStatus = currentBuild.currentResult
+
+                // Construct the payload
+                def payload = [
+                    jobName: jobName,
+                    buildNumber: buildNumber,
+                    status: buildStatus
+                ]
+
+                // Send notification
+                httpRequest(
+                    httpMode: 'POST',
+                    url: 'http://<your_server_ip>:3000/webhook',
+                    contentType: 'APPLICATION_JSON',
+                    requestBody: new groovy.json.JsonBuilder(payload).toString()
+                )
             }
-        failure{
-            echo 'build has failed'
-    }
         }
         
+}
 }
